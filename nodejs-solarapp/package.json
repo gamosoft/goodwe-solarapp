@@ -1,0 +1,22 @@
+{
+  "name": "nodejs",
+  "version": "1.0.0",
+  "description": "NodeJS template",
+  "main": "index.js",
+  "scripts": {
+      "start": "node ./src/index.js",
+      "dev": "nodemon -L --watch src ./src/index.js",
+      "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Gamosoft",
+  "license": "MIT",
+  "dependencies": {
+      "address": "^1.1.2",
+      "cors": "^2.8.5",
+      "express": "^4.17.1",
+      "http": "0.0.1-security"
+  },
+  "devDependencies": {
+      "nodemon": "^2.0.15"
+  }
+}

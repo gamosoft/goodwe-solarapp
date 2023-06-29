@@ -1,0 +1,35 @@
+modules:
+  default:
+    headers:
+      MyHeader: some-test-header
+    metrics:
+      - name: nodejs_solarapp
+        type: object
+        help: Inverter statistics
+        path: '{@}'
+        epochTimestamp: '{.timestamp}'
+        values:
+          timestamp: '{.timestamp}'
+          vpv1: '{.vpv1}'
+          ipv1: '{.ipv1}'
+          vpv2: '{.vpv2}'
+          ipv2: '{.ipv2}'
+          batteryV: '{.batteryV}'
+          batteryTemperature: '{.batteryTemperature}'
+          batteryI: '{.batteryI}'
+          batterySOC: '{.batterySOC}'
+          batterySOH: '{.batterySOH}'
+          gridV: '{.gridV}'
+          gridI: '{.gridI}'
+          gridP: '{.gridP}'
+          loadV: '{.loadV}'
+          loadI: '{.loadI}'
+          loadP: '{.loadP}'
+          inverterTemperature: '{.inverterTemperature}'
+          todaysLoad: '{.todaysLoad}'
+          todaysPVGeneration: '{.todaysPVGeneration}'
+          pv: '{.pv}'
+          batteryP: '{.batteryP}'
+          houseConsumption: '{.houseConsumption}'
+          batteryMode: '{.batteryMode}'
+          gridInOutMode: '{.gridInOutMode}'          

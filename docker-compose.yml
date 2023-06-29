@@ -1,0 +1,94 @@
+services:
+
+  caddy-solarapp:
+    image: solarapp-caddy-solarapp:1.0.0
+    build:
+      context: ./caddy-solarapp
+      dockerfile: ./Dockerfile
+    container_name: solarapp-caddy-solarapp
+    ports:
+      - 8080:80
+    networks:
+      - solarapp-network
+    restart: unless-stopped
+    depends_on:
+      - nodejs-solarapp
+
+  nodejs-solarapp:
+    image: solarapp-nodejs-solarapp:1.0.0
+    build:
+      context: ./nodejs-solarapp
+      dockerfile: ./Dockerfile
+    container_name: solarapp-nodejs-solarapp
+    ports:
+      - 9876:9876
+    networks:
+      - solarapp-network
+    restart: unless-stopped
+
+  prometheus-exporter-solarapp:
+    image: solarapp-prometheus-exporter-solarapp:1.0.0
+    build:
+      context: ./prometheus-exporter-solarapp
+      dockerfile: ./Dockerfile
+    container_name: solarapp-prometheus-exporter-solarapp
+    ports:
+      - 7979:7979
+    volumes:
+      - ./prometheus-exporter-solarapp/config.yml:/config.yml:ro
+    networks:
+      - solarapp-network
+    restart: unless-stopped
+    depends_on:
+      - nodejs-solarapp      
+
+  prometheus:
+    image: solarapp-prometheus:1.0.0
+    build:
+      context: ./prometheus
+      dockerfile: ./Dockerfile
+    container_name: solarapp-prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - solarapp-prometheus:/prometheus
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    networks:
+      - solarapp-network
+    restart: unless-stopped
+    depends_on:
+      - prometheus-exporter-solarapp
+
+  grafana:
+    image: solarapp-grafana:1.0.0
+    build:
+      context: ./grafana
+      dockerfile: ./Dockerfile
+    container_name: solarapp-grafana
+    ports:
+      - 3000:3000
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=password
+    volumes:
+      - solarapp-grafana:/var/lib/grafana
+      - ./grafana/datasources:/etc/grafana/provisioning/datasources
+      - ./grafana/dashboards:/etc/grafana/provisioning/dashboards
+    networks:
+      - solarapp-network
+    restart: unless-stopped
+    depends_on:
+      - prometheus
+
+networks:
+  solarapp-network:
+    name: solarapp-network
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 10.1.0.0/16
+         gateway: 10.1.0.1
+
+volumes:
+  solarapp-prometheus:
+  solarapp-grafana:

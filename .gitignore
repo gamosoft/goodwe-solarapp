@@ -1,0 +1,8 @@
+deploy/
+resources/
+node_modules/
+db/
+logs/
+.vscode/
+.DS_Store
+.env

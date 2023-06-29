@@ -1,0 +1,19 @@
+span {
+    --fa-inverse: #00ffff;
+}
+
+i.red {
+    --fa-inverse: #ff4d4d;
+}
+
+i.orange {
+    --fa-inverse: #ff6a00;
+}
+
+i.yellow {
+    --fa-inverse: #ffd800;
+}
+
+i.green {
+    --fa-inverse: #00ff21;
+}
